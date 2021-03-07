@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.idea/
+.tmp/
+npm-debug.log
+*~
+*#
+.#*
+$Recycle.Bin/
