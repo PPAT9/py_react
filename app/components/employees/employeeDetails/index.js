@@ -7,7 +7,7 @@ export default class EmployeeDetails extends PureComponent {
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-4">
-						<img className="thumb" src={item.avatar} />
+						<img className="thumb" src={item.avatar} width="50" height="50"/>
 					</div>
 					<div class="col-xs-8">
 						<h1>{item.firstName}.{item.lastName}</h1>

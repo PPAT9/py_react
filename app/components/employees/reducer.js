@@ -9,6 +9,8 @@ export default (state={}, action) => {
 		return {...state, 'employeeData': action.playload};
 	case actionTypes.UPDATE_EMP:
 		return {...state, 'employeeData': action.playload};
+	case actionTypes.DELETE_EMP:
+			return {...state, 'employeeData': action.playload};
 	default:
 	      return state;
 	}

@@ -3,6 +3,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as employeeActions from '../actions';
 import EmployeeCard from '../employeeCard';
+import { Button, ButtonToolbar, Modal } from 'react-bootstrap';
+import EmployeeDetailsUpdate from '../employeeDetailsUpdate';
 
 import _ from 'lodash';
 
@@ -12,8 +14,11 @@ class EmployeeListView extends PureComponent {
 		this.state = {
 			employeeData: [],
 			companyInfo: {},
-			empID: ''
+			empID: '',
+			showModal: false
 		}
+		this.handleShow = this.handleShow.bind(this);
+		this.handleClose = this.handleClose.bind(this);
 	}
 
 	componentWillMount() {
@@ -29,13 +34,24 @@ class EmployeeListView extends PureComponent {
 		}
 	}
 
+	handleClose() {
+		this.setState({ showModal: false });
+	}
+
+	handleShow() {
+		this.setState({ showModal: true});
+	}
+
 	render() {
 		const employeeCards = this.state.employeeData.map(
 			(item, i) => {
-				return (<EmployeeCard detials={item} id={i} key={i} actions={this.props.actions}/>)
+				return (<EmployeeCard details={item} id={i} key={i} actions={this.props.actions}/>)
 			}
 		);
-
+		let new_id = Math.round(Math.random() * (100000000000000 - 100) + 100).toString()
+		
+		let empty_item = {id: new_id, firstName: "", lastName: "", age: "", jobTitle: "", dateJoined: "", bio: "", avatar: ""}
+		
 		return (
 			<div>
 				<div className="table">
@@ -49,9 +65,19 @@ class EmployeeListView extends PureComponent {
 						Since : {this.state.companyInfo.companyEst}
 					</div>
 				</div>
-				< div className="cmpEmp">
+				< div className="table-cell cmpEmp">
 					Our Employees
+					<button onClick={this.handleShow} >Add</button>
+					<div className="modal-dialog" key={new_id}>				
+						<Modal show={this.state.showModal} onHide={this.handleClose} >
+							<Modal.Header closeButton> </Modal.Header>
+							<Modal.Body>
+								<EmployeeDetailsUpdate details={empty_item} id={new_id} key={new_id} actions={this.props.actions}/>
+							</Modal.Body>
+						</Modal>				
+					</div>
 				</div>
+				
 				<div className="card-container">
 					{employeeCards}
 				</div>
