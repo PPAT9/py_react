@@ -10,7 +10,15 @@ export default (state={}, action) => {
 	case actionTypes.UPDATE_EMP:
 		return {...state, 'employeeData': action.playload};
 	case actionTypes.DELETE_EMP:
-			return {...state, 'employeeData': action.playload};
+		return {...state, 'employeeData': action.playload};
+	case actionTypes.GET_TODO:
+		return {...state, 'employeeToDoData': action.playload};
+	case actionTypes.DELETE_TODO:
+		return {...state, 'employeeToDoData': action.playload};
+	case actionTypes.UPDATE_TODO:
+		return {...state, 'employeeToDoData': action.playload};
+	case actionTypes.GET_ALL_TODO:
+		return {...state, 'employeeToDoData': action.playload};
 	default:
 	      return state;
 	}

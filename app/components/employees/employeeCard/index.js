@@ -4,6 +4,7 @@ import { Button, ButtonToolbar, Modal } from 'react-bootstrap';
 import EmployeeDetails from '../employeeDetails';
 import EmployeeDetailsUpdate from '../employeeDetailsUpdate';
 import EmployeeCardDetails from '../employeeCardDetails';
+import EmployeeToDoCard from '../employeeToDoCard';
 
 export default class EmployeeCard extends PureComponent {
 
@@ -11,6 +12,8 @@ export default class EmployeeCard extends PureComponent {
 		super(props);
 		this.state = {
 			showModal: false,
+			showViewModal: false,
+			showToDoModal: false,
 			selector: 'card'
 		}
 
@@ -19,12 +22,13 @@ export default class EmployeeCard extends PureComponent {
 		this.handleViewShow = this.handleViewShow.bind(this);
 		this.handleViewClose = this.handleViewClose.bind(this);
 		this.handleDeleteEmp = this.handleDeleteEmp.bind(this)
+		this.handleToDoClose = this.handleToDoClose.bind(this);
+		this.handleToDoShow = this.handleToDoShow.bind(this);
 	}
   
     handleDeleteEmp(event){ 
         
-        event.preventDefault() 		
-		console.log(this.props)
+        event.preventDefault() 
         this.props.actions.deleteEmployee(this.props.details.id);
     } 
 
@@ -48,10 +52,19 @@ export default class EmployeeCard extends PureComponent {
 		this.setState({ showViewModal: true});
 	}
 
+	handleToDoClose() {
+		selector: 'selectedCard'
+		this.setState({ showToDoModal: false });
+	}
+
+	handleToDoShow() {
+		this.setState({ showToDoModal: true});
+	}
+
+
 	render() {
 		let item = this.props.details;
-		let id = this.props.id;
-		console.log(item)
+		let id = this.props.details.id;		
 		let selectedCard = this.state.showModal? 'selectedCard': 'card'
 		return (
 			<div>	
@@ -62,6 +75,9 @@ export default class EmployeeCard extends PureComponent {
 						</button>
 						<button type="button" className="Delete" aria-label="View" onClick={this.handleDeleteEmp}>
 							<span aria-hidden="true">&times;</span>							
+						</button>
+						<button type="button" className="ToDo" aria-label="ToDo" onClick={this.handleToDoShow}>
+							<span aria-hidden="true">todo</span>							
 						</button>
 					</div>
 					
@@ -89,6 +105,16 @@ export default class EmployeeCard extends PureComponent {
 						</Modal.Body>
 					</Modal>				
 				</div>
+
+				<div className="modal-dialog" key="Todo-{id}">				
+					<Modal show={this.state.showToDoModal} onHide={this.handleToDoClose} >
+						<Modal.Header closeButton> </Modal.Header>
+						<Modal.Body>
+							<EmployeeToDoCard todo={this.props.todo} id={id} key={id} actions={this.props.actions}/>
+						</Modal.Body>
+					</Modal>				
+				</div>
+
 			</div>
 		);
 	}

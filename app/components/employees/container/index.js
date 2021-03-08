@@ -13,6 +13,7 @@ class EmployeeListView extends PureComponent {
 		super(props);
 		this.state = {
 			employeeData: [],
+			ToDoData:{},
 			companyInfo: {},
 			empID: '',
 			showModal: false
@@ -23,6 +24,7 @@ class EmployeeListView extends PureComponent {
 
 	componentWillMount() {
 		this.props.actions.fetchEmployee();
+		this.props.actions.fetchAllToDo();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -31,6 +33,16 @@ class EmployeeListView extends PureComponent {
 				employeeData: nextProps.employeeData.employees,
 				companyInfo: nextProps.employeeData.companyInfo,
 			});
+		}
+
+		if (nextProps.employeeToDoData !== undefined && nextProps.employeeToDoData !== this.props.employeeToDoData) {			
+			console.log("nextProps.employeeData.employeeToDoData")
+			console.log(nextProps.employeeToDoData)
+			this.setState({
+				ToDoData: nextProps.employeeToDoData,
+				
+			});
+			console.log(this.state)
 		}
 	}
 
@@ -43,9 +55,10 @@ class EmployeeListView extends PureComponent {
 	}
 
 	render() {
+		
 		const employeeCards = this.state.employeeData.map(
 			(item, i) => {
-				return (<EmployeeCard details={item} id={i} key={i} actions={this.props.actions}/>)
+				return (<EmployeeCard details={item} todo={this.state.ToDoData[item.id]} id={i} key={i} actions={this.props.actions}/>)
 			}
 		);
 		let new_id = Math.round(Math.random() * (100000000000000 - 100) + 100).toString()
@@ -88,8 +101,11 @@ class EmployeeListView extends PureComponent {
 
 
 const mapStateToProps = (state) => {
+	console.log("......................................Map state to Props")
+	console.log(state)
 	return ({
-		employeeData: state.employee.employeeData
+		employeeData: state.employee.employeeData,
+		employeeToDoData: state.employee.employeeToDoData
 	})
 }
 

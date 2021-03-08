@@ -3,11 +3,9 @@ import React, { PureComponent } from 'react';
 export default class EmployeeDetailsUpdate extends PureComponent {
     constructor(props) {
 		super(props);
-    console.log("In employee details update - props")
-    console.log(this.props)
-        this.state = { ...this.props.details} 
-        this.handleInput = this.handleInput.bind(this) 
-        this.handleSubmit = this.handleSubmit.bind(this) 
+    this.state = { ...this.props.details} 
+    this.handleInput = this.handleInput.bind(this) 
+    this.handleSubmit = this.handleSubmit.bind(this) 
 	}
 
     
